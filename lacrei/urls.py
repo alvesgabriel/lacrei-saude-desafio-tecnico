@@ -23,14 +23,16 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-from lacrei.core import views
+from lacrei.core.views import UserViewSet, home
+from lacrei.medical.views import ProfessionalViewSet
 
 router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
+router.register(r'users', UserViewSet)
+router.register(r'professionals', ProfessionalViewSet)
 
 
 urlpatterns = [
-    path('', views.home),
+    path('', home),
     path('', include(router.urls)),
     path(
         'api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'

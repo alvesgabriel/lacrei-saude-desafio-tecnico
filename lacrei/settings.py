@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     # Local Apps
     'lacrei.core',
+    'lacrei.medical',
 ]
 
 MIDDLEWARE = [

@@ -169,20 +169,6 @@ argon2 = ["argon2-cffi (>=23.1.0)"]
 bcrypt = ["bcrypt (>=4.1.1)"]
 
 [[package]]
-name = "django-address"
-version = "0.2.8"
-description = "A django application for describing addresses."
-optional = false
-python-versions = ">=3.5"
-groups = ["main"]
-files = [
-    {file = "django-address-0.2.8.tar.gz", hash = "sha256:aa0c5b90524d4dee43162929cceb1c546f859c4a16a3fc0497a4896b7ace4236"},
-]
-
-[package.dependencies]
-Django = ">=2.1"
-
-[[package]]
 name = "django-phonenumber-field"
 version = "8.4.0"
 description = "An international phone number field for django models."
@@ -629,4 +615,4 @@ markers = {main = "sys_platform == \"win32\"", dev = "platform_system == \"Windo
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.14,<4.0"
-content-hash = "e96d474d921439fb11c6649a0a14acf17af252dbab7679097a51afcd627f0c50"
+content-hash = "b3a97d83132b8d4736cd3b7f23524bc6c3d1d844d7c7532d0f1d74c908073151"
