@@ -5,8 +5,14 @@ import pytest
 from rest_framework import status
 
 from lacrei.medical.models import Appointment, Professional
-from lacrei.medical.serializers import ProfessionalSerializer, AppointmentSerializer
-from lacrei.medical.tests.test_professional import ProfessionalFactory, UserFactory
+from lacrei.medical.serializers import (
+    AppointmentSerializer,
+    ProfessionalSerializer,
+)
+from lacrei.medical.tests.test_professional import (
+    ProfessionalFactory,
+    UserFactory,
+)
 
 
 class AppointmentFactory(factory.django.DjangoModelFactory):
@@ -67,7 +73,7 @@ def test_create_appointment_error_unauthorazed_401(
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
-def test_get_appointment_by_id_status_code_200(    client_authorized, db):
+def test_get_appointment_by_id_status_code_200(client_authorized, db):
     appointment = AppointmentFactory()
     response = client_authorized.get(
         f'/appointments/{appointment.id}/',
@@ -76,7 +82,8 @@ def test_get_appointment_by_id_status_code_200(    client_authorized, db):
 
 
 def test_get_appointment_by_id_body_response(
-    client_authorized, db,
+    client_authorized,
+    db,
 ):
     appointment = AppointmentFactory()
     response = client_authorized.get(
@@ -86,9 +93,7 @@ def test_get_appointment_by_id_body_response(
     assert response.json() == expected
 
 
-def test_update_appointment_by_id(
-    client_authorized, db, appointment_dict
-):
+def test_update_appointment_by_id(client_authorized, db, appointment_dict):
     appointment = AppointmentFactory()
     response = client_authorized.put(
         f'/appointments/{appointment.id}/',
@@ -111,9 +116,7 @@ def test_update_appointment_error_to_other_user(
     assert response.status_code == status.HTTP_403_FORBIDDEN
 
 
-def test_delete_appointment_by_id(
-    client_authorized, db
-):
+def test_delete_appointment_by_id(client_authorized, db):
     appointment = AppointmentFactory()
     response = client_authorized.delete(
         f'/appointments/{appointment.id}/',
@@ -121,9 +124,7 @@ def test_delete_appointment_by_id(
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
-def test_delete_appointment_by_error(
-    client_authorized, db
-):
+def test_delete_appointment_by_error(client_authorized, db):
     user = UserFactory()
     appointment = AppointmentFactory(user_id=user.id)
     response = client_authorized.delete(

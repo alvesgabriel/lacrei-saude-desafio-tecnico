@@ -26,7 +26,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
     professional_id = serializers.PrimaryKeyRelatedField(
         queryset=models.Professional.objects.all(),
         source='professional',
-        write_only=True
+        write_only=True,
     )
 
     class Meta:
