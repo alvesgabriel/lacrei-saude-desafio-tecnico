@@ -59,7 +59,7 @@ python_files = ["tests.py", "test_*.py", "*_test.py", "testing/python/*.py"]
 addopts = '-p no:warnings'
 
 [tool.typos.files]
-extend-exclude = ['htmlcov/*']
+extend-exclude = ['htmlcov/*', 'README.md']
 
 [tool.taskipy.tasks]
 manage='python $VIRTUAL_ENV/../manage.py'
