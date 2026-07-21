@@ -1,0 +1,21 @@
+services:
+  api:
+    image: lacrei-api
+    env_file:
+      - .env
+    depends_on:
+      - database
+    network_mode: "host"
+
+  database:
+    image: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/
+    env_file:
+      - .env
+    network_mode: "host"
+
+volumes:
+  pgdata:
