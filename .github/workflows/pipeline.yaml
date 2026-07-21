@@ -1,0 +1,27 @@
+name: Pipeline
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    env:
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+
+    steps:
+      - name: Copy repository files
+        uses: actions/checkout@v5
+
+      - name: Install Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.14'
+
+      - name: Install Poetry
+        run: pipx install poetry
+
+      - name: Install dependences
+        run: poetry install
+
+      - name: Run tests
+        run: poetry run task test

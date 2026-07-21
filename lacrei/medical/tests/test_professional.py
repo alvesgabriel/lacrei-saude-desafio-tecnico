@@ -27,11 +27,6 @@ def professional_dict():
     }
 
 
-
-
-
-
-
 def test_create_professional_status_code_201(
     client_api, db, professional_dict, authorization
 ):
@@ -66,9 +61,7 @@ def test_create_professional_error_unauthorazed_401(
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
-def test_get_professional_by_id_status_code_200(
-    client_api, db, authorization
-):
+def test_get_professional_by_id_status_code_200(client_api, db, authorization):
     professional = ProfessionalFactory()
     response = client_api.get(
         f'/professionals/{professional.id}/',
@@ -77,9 +70,7 @@ def test_get_professional_by_id_status_code_200(
     assert response.status_code == status.HTTP_200_OK
 
 
-def test_get_professional_by_id_body_response(
-    client_api, db, authorization
-):
+def test_get_professional_by_id_body_response(client_api, db, authorization):
     professional = ProfessionalFactory()
     response = client_api.get(
         f'/professionals/{professional.id}/',
