@@ -25,10 +25,12 @@ from rest_framework_simplejwt.views import (
 
 from lacrei.core.views import UserViewSet, home
 from lacrei.medical.views import ProfessionalViewSet
+from lacrei.medical.views import AppointmentViewSet
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'professionals', ProfessionalViewSet)
+router.register(r'appointments', AppointmentViewSet)
 
 
 urlpatterns = [

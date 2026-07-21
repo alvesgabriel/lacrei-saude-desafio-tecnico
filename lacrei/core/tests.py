@@ -8,9 +8,8 @@ class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = CustomUser
 
-    email = factory.Sequence(lambda n: f'test{n}@test.com')
-    password = 't3st#42'
-    is_active = True
+    email = factory.Sequence(lambda n: f'test{n}@example.com')
+    password = factory.Faker('pystr', min_chars=8, max_chars=8)
 
 
 def test_create_user_status_code_201(client, db, user_dict):

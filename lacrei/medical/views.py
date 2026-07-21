@@ -8,3 +8,9 @@ class ProfessionalViewSet(viewsets.ModelViewSet):
     queryset = models.Professional.objects.all()
     serializer_class = serializers.ProfessionalSerializer
     permission_classes = [IsOwner & permissions.IsAuthenticated]
+
+
+class AppointmentViewSet(viewsets.ModelViewSet):
+    queryset = models.Appointment.objects.all()
+    serializer_class = serializers.AppointmentSerializer
+    permission_classes = [IsOwner & permissions.IsAuthenticated]

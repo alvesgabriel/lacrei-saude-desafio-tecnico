@@ -2,9 +2,18 @@ import factory
 import pytest
 from rest_framework import status
 
-from lacrei.core.models import CustomUser
+from lacrei.core.tests import UserFactory
 from lacrei.medical.models import Professional
 from lacrei.medical.serializers import ProfessionalSerializer
+
+
+class ProfessionalFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Professional
+
+    profession = 'Médica'
+    email = factory.Sequence(lambda n: f'test{n}@example.com')
+    user_id = 1
 
 
 @pytest.fixture
@@ -18,21 +27,9 @@ def professional_dict():
     }
 
 
-class UserFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = CustomUser
-
-    email = factory.Sequence(lambda n: f'test{n}@example.com')
-    password = factory.Faker('pystr', min_chars=8, max_chars=8)
 
 
-class ProfessionalFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = Professional
 
-    profession = 'Médica'
-    email = factory.Sequence(lambda n: f'test{n}@example.com')
-    user_id = 1
 
 
 def test_create_professional_status_code_201(
@@ -69,7 +66,7 @@ def test_create_professional_error_unauthorazed_401(
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
-def test_create_professional_get_by_id_status_code_200(
+def test_get_professional_by_id_status_code_200(
     client_api, db, authorization
 ):
     professional = ProfessionalFactory()
@@ -80,7 +77,7 @@ def test_create_professional_get_by_id_status_code_200(
     assert response.status_code == status.HTTP_200_OK
 
 
-def test_create_professional_get_by_id_body_response(
+def test_get_professional_by_id_body_response(
     client_api, db, authorization
 ):
     professional = ProfessionalFactory()
