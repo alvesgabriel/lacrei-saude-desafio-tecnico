@@ -1,0 +1,48 @@
+name: Build and Push Docker Image to GHCR
+
+on:
+  push:
+    tags:
+      - '*'
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  pipeline:
+    uses: ./.github/workflows/pipeline.yaml
+    secrets:
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+
+  build:
+    needs: pipeline
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get Git tag
+        id: get_tag
+        run: |
+          # Extract tag name from refs/tags/tag-name
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+          else
+            echo "TAG=latest" >> $GITHUB_ENV
+          fi
+
+      - name: Build and push Docker image
+        run: |
+          # Build the image using the docker build command
+          docker build -t ghcr.io/${{ github.repository }}:${{ env.TAG }} .
+          
+          # Push the image to GHCR
+          docker push ghcr.io/${{ github.repository }}:${{ env.TAG }}
