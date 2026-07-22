@@ -13,6 +13,7 @@ Desafio técnico para voluntariado Backend na Lacrei Saúde
         * [Execução da API](#execução-da-api)
         * [Parar API e servicos](#parar-api-e-servicos)
         * [Limpar](#limpar)
+        * [Tag](#tag)
 
 ## API
 
@@ -169,4 +170,17 @@ make stop
 Comando para limpar os serviços junto com a API
 ```shell
 make clean
+```
+
+#### Tag
+Comando para criar uma tag do git e atuliza-la no repositório remoto.
+```shell
+make tag
+```
+
+Ele por padrão atualiza a versão `minor` mas ele pode receber um valor `VERSION_BUMP=(major|minor|patch)`
+
+__Exemplo para atualizar a versão major:__
+```shell
+make tag VERSION_BUMP=major
 ```

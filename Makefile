@@ -9,12 +9,24 @@ help:
 	@echo "  stop       to stop all project running containers"
 	@echo "  shell      to enter a shell on running container API"
 	@echo "  clean      to clean all project deleting volumes"
+	@echo "  tag        to create a git tag and push to repository"
 	@echo "  psql       to enter a shell on running container Postgres"
 	@echo
 
+VERSION_BUMP ?= minor
 
-build:
-	@docker build -t lacrei-api . --no-cache
+version_tag:
+	@$(eval VERSION_TAG=v`poetry version --short`)
+
+
+tag: version_tag
+	@poetry version $(VERSION_BUMP)
+	@git tag $(VERSION_TAG)
+	@git push origin $(VERSION_TAG)
+
+
+build: version_tag
+	@docker build -t lacrei-api:$(VERSION_TAG) . --no-cache
 
 
 start:
