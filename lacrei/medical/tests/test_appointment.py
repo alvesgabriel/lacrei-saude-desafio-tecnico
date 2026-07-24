@@ -37,7 +37,7 @@ def test_create_appointment_status_code_201(
     client_authorized, db, appointment_dict
 ):
     response = client_authorized.post(
-        '/appointments/',
+        '/api/appointments/',
         data=appointment_dict,
     )
     assert response.status_code == status.HTTP_201_CREATED
@@ -52,7 +52,7 @@ def test_create_appointment_body_response(
         ).data
     )
     response = client_authorized.post(
-        '/appointments/',
+        '/api/appointments/',
         data=appointment_dict,
     )
     expected = {
@@ -67,7 +67,7 @@ def test_create_appointment_error_unauthorazed_401(
     client_api, db, appointment_dict
 ):
     response = client_api.post(
-        '/appointments/',
+        '/api/appointments/',
         data=appointment_dict,
     )
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
@@ -76,7 +76,7 @@ def test_create_appointment_error_unauthorazed_401(
 def test_get_appointment_by_id_status_code_200(client_authorized, db):
     appointment = AppointmentFactory()
     response = client_authorized.get(
-        f'/appointments/{appointment.id}/',
+        f'/api/appointments/{appointment.id}/',
     )
     assert response.status_code == status.HTTP_200_OK
 
@@ -87,7 +87,7 @@ def test_get_appointment_by_id_body_response(
 ):
     appointment = AppointmentFactory()
     response = client_authorized.get(
-        f'/appointments/{appointment.id}/',
+        f'/api/appointments/{appointment.id}/',
     )
     expected = dict(AppointmentSerializer(appointment).data)
     assert response.json() == expected
@@ -96,7 +96,7 @@ def test_get_appointment_by_id_body_response(
 def test_update_appointment_by_id(client_authorized, db, appointment_dict):
     appointment = AppointmentFactory()
     response = client_authorized.put(
-        f'/appointments/{appointment.id}/',
+        f'/api/appointments/{appointment.id}/',
         data=appointment_dict,
     )
     appointment.refresh_from_db()
@@ -110,7 +110,7 @@ def test_update_appointment_error_to_other_user(
     user = UserFactory()
     appointment = AppointmentFactory(user_id=user.id)
     response = client_authorized.put(
-        f'/appointments/{appointment.id}/',
+        f'/api/appointments/{appointment.id}/',
         data=appointment_dict,
     )
     assert response.status_code == status.HTTP_403_FORBIDDEN
@@ -119,7 +119,7 @@ def test_update_appointment_error_to_other_user(
 def test_delete_appointment_by_id(client_authorized, db):
     appointment = AppointmentFactory()
     response = client_authorized.delete(
-        f'/appointments/{appointment.id}/',
+        f'/api/appointments/{appointment.id}/',
     )
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
@@ -128,6 +128,6 @@ def test_delete_appointment_by_error(client_authorized, db):
     user = UserFactory()
     appointment = AppointmentFactory(user_id=user.id)
     response = client_authorized.delete(
-        f'/appointments/{appointment.id}/',
+        f'/api/appointments/{appointment.id}/',
     )
     assert response.status_code == status.HTTP_403_FORBIDDEN

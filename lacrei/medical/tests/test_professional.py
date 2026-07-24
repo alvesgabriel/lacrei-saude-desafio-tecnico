@@ -31,7 +31,7 @@ def test_create_professional_status_code_201(
     client_api, db, professional_dict, authorization
 ):
     response = client_api.post(
-        '/professionals/',
+        '/api/professionals/',
         headers=authorization,
         data=professional_dict,
     )
@@ -42,7 +42,7 @@ def test_create_professional_body_response(
     client_api, db, professional_dict, authorization
 ):
     response = client_api.post(
-        '/professionals/',
+        '/api/professionals/',
         headers=authorization,
         data=professional_dict,
     )
@@ -55,7 +55,7 @@ def test_create_professional_error_unauthorazed_401(
     client_api, db, professional_dict
 ):
     response = client_api.post(
-        '/professionals/',
+        '/api/professionals/',
         data=professional_dict,
     )
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
@@ -64,7 +64,7 @@ def test_create_professional_error_unauthorazed_401(
 def test_get_professional_by_id_status_code_200(client_api, db, authorization):
     professional = ProfessionalFactory()
     response = client_api.get(
-        f'/professionals/{professional.id}/',
+        f'/api/professionals/{professional.id}/',
         headers=authorization,
     )
     assert response.status_code == status.HTTP_200_OK
@@ -73,7 +73,7 @@ def test_get_professional_by_id_status_code_200(client_api, db, authorization):
 def test_get_professional_by_id_body_response(client_api, db, authorization):
     professional = ProfessionalFactory()
     response = client_api.get(
-        f'/professionals/{professional.id}/',
+        f'/api/professionals/{professional.id}/',
         headers=authorization,
     )
     expected = dict(ProfessionalSerializer(professional).data)
@@ -85,7 +85,7 @@ def test_update_professional_by_id(
 ):
     professional = ProfessionalFactory()
     response = client_authorized.put(
-        f'/professionals/{professional.id}/',
+        f'/api/professionals/{professional.id}/',
         data=professional_dict,
     )
     expected = professional_dict.copy()
@@ -99,7 +99,7 @@ def test_update_professional_error_to_other_user(
     user = UserFactory()
     professional = ProfessionalFactory(user_id=user.id)
     response = client_authorized.put(
-        f'/professionals/{professional.id}/',
+        f'/api/professionals/{professional.id}/',
         data=professional_dict,
     )
     assert response.status_code == status.HTTP_403_FORBIDDEN
