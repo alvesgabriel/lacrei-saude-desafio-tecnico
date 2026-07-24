@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     # Third Apps
     'rest_framework',
     'rest_framework_simplejwt',
+    'drf_spectacular',
     # Local Apps
     'lacrei.core',
     'lacrei.medical',
@@ -133,7 +134,8 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
-    ]
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 AUTH_USER_MODEL = "core.CustomUser"
@@ -144,4 +146,11 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
     'ALGORITHM': 'HS256',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Lacrei Saúde API',
+    'DESCRIPTION': 'API to create professionals and appointment with them',
+    'VERSION': '0.1.0',
+    'SERVE_INCLUDE_SCHEMA': False,
 }

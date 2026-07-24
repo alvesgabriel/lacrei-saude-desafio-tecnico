@@ -23,7 +23,7 @@ def user_dict():
 @pytest.fixture
 def user_post(client, user_dict):
     response = client.post(
-        '/users/',
+        '/api/users/',
         data=user_dict,
     )
     user = response.json()
