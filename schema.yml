@@ -16,6 +16,21 @@ paths:
   /api/appointments/:
     get:
       operationId: api_appointments_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: professional_id
+        schema:
+          type: integer
+      - in: query
+        name: user_id
+        schema:
+          type: integer
       tags:
       - api
       security:
@@ -25,9 +40,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Appointment'
+                $ref: '#/components/schemas/PaginatedAppointmentList'
           description: ''
     post:
       operationId: api_appointments_create
@@ -157,6 +170,33 @@ paths:
   /api/professionals/:
     get:
       operationId: api_professionals_list
+      parameters:
+      - in: query
+        name: address
+        schema:
+          type: string
+      - in: query
+        name: email
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: phone
+        schema:
+          type: string
+      - in: query
+        name: profession
+        schema:
+          type: string
+      - in: query
+        name: social_name
+        schema:
+          type: string
       tags:
       - api
       security:
@@ -166,9 +206,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Professional'
+                $ref: '#/components/schemas/PaginatedProfessionalList'
           description: ''
     post:
       operationId: api_professionals_create
@@ -352,6 +390,17 @@ paths:
   /api/users/:
     get:
       operationId: api_users_list
+      parameters:
+      - in: query
+        name: email
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
       tags:
       - api
       security:
@@ -361,9 +410,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CustomUser'
+                $ref: '#/components/schemas/PaginatedCustomUserList'
           description: ''
     post:
       operationId: api_users_create
@@ -533,6 +580,75 @@ components:
       - email
       - id
       - password
+    PaginatedAppointmentList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Appointment'
+    PaginatedCustomUserList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomUser'
+    PaginatedProfessionalList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Professional'
     PatchedAppointment:
       type: object
       properties:

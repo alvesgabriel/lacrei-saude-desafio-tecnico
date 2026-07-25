@@ -14,6 +14,7 @@ jobs:
     uses: ./.github/workflows/pipeline.yaml
     secrets:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
 
   build:
     needs: pipeline

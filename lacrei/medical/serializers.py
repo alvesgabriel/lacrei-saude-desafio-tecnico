@@ -16,8 +16,10 @@ class ProfessionalSerializer(serializers.ModelSerializer):
             'phone',
             'address',
             'user',
+            'user_id',
         ]
         extra_kwargs = {'user': {'write_only': True}}
+        read_only_fields = ['id', 'user_id']
 
 
 class AppointmentSerializer(serializers.ModelSerializer):

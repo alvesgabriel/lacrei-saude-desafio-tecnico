@@ -20,10 +20,11 @@ def home(request):
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = models.CustomUser.objects.all()
+    queryset = models.CustomUser.objects.all().order_by('id')
     serializer_class = serializers.CustomUserSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsOwnerOrCreate]
+    filterset_fields = ('email',)
 
     @typing.override
     def create(self, request):

@@ -131,3 +131,52 @@ def test_delete_appointment_by_error(client_authorized, db):
         f'/api/appointments/{appointment.id}/',
     )
     assert response.status_code == status.HTTP_403_FORBIDDEN
+
+
+def test_list_appointments_10_registers(
+    client_authorized,
+    db,
+):
+    AppointmentFactory.create_batch(10)
+    response = client_authorized.get(
+        '/api/appointments/',
+    )
+    expected = response.json()
+    expected_count = 10
+    assert expected.get('count') == expected_count
+
+
+def test_list_appointments_filter_by_professional(
+    client_authorized,
+    db,
+):
+    professional = ProfessionalFactory()
+    AppointmentFactory.create_batch(7)
+    AppointmentFactory.create_batch(
+        3,
+        professional=professional,
+    )
+    response = client_authorized.get(
+        f'/api/appointments/?professional_id={professional.id}',
+    )
+    expected = response.json()
+    expected_count = 3
+    assert expected.get('count') == expected_count
+
+
+def test_list_appointments_filter_by_user_id(
+    client_authorized,
+    db,
+):
+    user = UserFactory()
+    AppointmentFactory.create_batch(7)
+    AppointmentFactory.create_batch(
+        3,
+        user_id=user.id,
+    )
+    response = client_authorized.get(
+        f'/api/appointments/?user_id={user.id}',
+    )
+    expected = response.json()
+    expected_count = 3
+    assert expected.get('count') == expected_count

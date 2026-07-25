@@ -2,10 +2,13 @@
 Desafio técnico para voluntariado Backend na Lacrei Saúde
 
 * [API](#api)
+    * [Documentação API](#documentação-api)
     * [Endpoints](#endpoints)
+        * [Autenticação](#autenticação)
         * [CRUD Usuários](#crud-usuários)
         * [CRUD Profissionais](#crud-profissionais)
         * [CRUD Consultas](#crud-consultas)
+            * [Listar Consultas](#listar-consultas)
 * [Execução do Código](#execução-do-código)
     * [Comandos](#comandos)
         * [Ajuda](#ajuda)
@@ -18,6 +21,13 @@ Desafio técnico para voluntariado Backend na Lacrei Saúde
 ## API
 
 A API REST foi feita em [Django Rest Framework](https://www.django-rest-framework.org/). O código para a API está no diretório `./lacrei/`
+
+### Documentação API
+
+Para visualizar a documentação via Swagger ou Redoc ao executar o projeto os seguintes endpoints estão disponíveis.
+
+* Swagger: `/api/schema/swagger-ui/`
+* Redoc: `/api/schema/redoc/`
 
 ### Endpoints
 
@@ -38,7 +48,7 @@ __Parâmetros:__
 | email | string |
 | password | string |
 
-__POST Example:__
+__POST Exemplo:__
 ```bash
 curl -X POST http://localhost:8000/users/ \
     -H "Content-Type: application/json" \
@@ -50,6 +60,31 @@ __Response:__
 {
     "id": 1,
     "email": "alice3@example.com"
+}
+```
+
+#### Autenticação
+
+Após o usuário ser criado ele pode ter acesso aos outros recursos da API fazendo sua autenticação no endpoint `/api/token/`
+
+__Parâmetros:__
+| Nome | Tipo |
+| --- | --- |
+| email | string |
+| password | string |
+
+__Authenticação Exemplo:__
+```bash
+curl -X POST http://localhost:8000/api/token/ \
+    -H "Content-Type: application/json" \
+    -d '{"email": "alice@example.com", "passowrd": "alice123",}'
+```
+
+__Response:__
+```json
+{
+    "acces": <token>,
+    "refresh": <token_para_atualizar>
 }
 ```
 
@@ -75,7 +110,7 @@ __Parâmetros:__
 | email | string |
 | phone | string |
 
-__POST Example:__
+__POST Exemplo:__
 ```bash
 curl -X POST http://localhost:8000/professionals/ \
     -H "Authorization: Bearer <token>" \
@@ -113,7 +148,7 @@ __Parâmetros:__
 | professional | object |
 | professional_id | integer |
 
-__POST Example:__
+__POST Exemplo:__
 ```bash
 curl -X POST http://localhost:8000/appointments/ \
     -H "Authorization: Bearer <token>" \
@@ -134,6 +169,40 @@ __Response:__
         "email": "alice@example.com",
         "phone": "+5521987654321"
     }
+}
+```
+
+##### Listar Consultas
+
+O endpoint para listar consultas é o `/api/appointments/`. Ele pode receber os seguintes __query params__ `user_id` e `professional_id`
+
+__GET Exemplo:__
+```bash
+curl -X GET http://localhost:8000/appointments/?professional_id=1 \
+    -H "Authorization: Bearer <token>" \
+    -H "Content-Type: application/json"'
+```
+
+__Response:__
+```json
+{
+    "count": 1,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "id": 1,
+            "date": "2026-01-01T16:20:00Z",
+            "professional": {
+                "id": 1,
+                "social_name": "",
+                "profession": "Médica",
+                "email": "alice@example.com",
+                "phone": "",
+                "address": ""
+            }
+        }
+    ]
 }
 ```
 
